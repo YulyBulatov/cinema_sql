@@ -1,6 +1,9 @@
 <?php
 
+
 namespace Controller;
+
+include ('model/Connect.php');
 use Model\Connect;
 
     class CinemaController{
@@ -17,7 +20,7 @@ INNER JOIN personne ON realisateur.id_personne = personne.id_personne
 ";
             $requete = $pdo->query($sqlQuery);
 
-            require "view/listFilms.php";
+            require "view/film/listFilms.php";
         }
 
         public function detailFilm($id){
@@ -32,7 +35,7 @@ INNER JOIN personne ON realisateur.id_personne = personne.id_personne
             $requete = $pdo->prepare($sqlQuery);
             $requete->execute(["id" => $id]);
 
-            require "view/detailFilm.php";
+            require "view/film/detailFilm.php";
         }
 
 

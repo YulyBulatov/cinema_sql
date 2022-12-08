@@ -7,6 +7,14 @@
     <title><?= $titre ?></title>
 </head>
 <body>
+    <nav>
+        <li><a href="index.php?action=home">Page d'accueil</a></li>
+        <li><a href="index.php?action=listFilms">Liste de films</a></li>
+        <li><a href="index.php?action=listRealisateurs">Réalisateurs</a></li>
+        <li><a href="index.php?action=listActeurs">Acteurs</a></li>
+        <li><a href="index.php?action=listGenres">Genres</a></li>
+        <li><a href="index.php?action=listPersonnages">Personnages</a></li>
+    </nav>
     <main>
         <div id="contenu">
             <h1>PDO Cinema</h1>
