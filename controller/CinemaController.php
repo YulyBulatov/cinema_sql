@@ -14,10 +14,9 @@ use Model\Connect;
 
             $pdo = Connect::seConnecter();
             $sqlQuery = "SELECT id_film, titre_film, TIME_FORMAT(SEC_TO_TIME(duree_minutes*60), '%H:%i') AS duree, YEAR(anne_sortie) AS anne_sortie, nom, prenom
-FROM film
-INNER JOIN realisateur on film.id_realisateur = realisateur.id_realisateur
-INNER JOIN personne ON realisateur.id_personne = personne.id_personne
-";
+            FROM film
+            INNER JOIN realisateur on film.id_realisateur = realisateur.id_realisateur
+            INNER JOIN personne ON realisateur.id_personne = personne.id_personne";
             $requete = $pdo->query($sqlQuery);
 
             require "view/film/listFilms.php";
@@ -37,6 +36,35 @@ INNER JOIN personne ON realisateur.id_personne = personne.id_personne
 
             require "view/film/detailFilm.php";
         }
+
+        public function listRealisateurs(){
+
+            $pdo = Connect::seConnecter();
+            $sqlQuery = "SELECT id_realisateur, nom, prenom, FLOOR(DATEDIFF(NOW(), date_naissance) / 365.25) AS age
+            FROM personne, realisateur
+            WHERE personne.id_personne = realisateur.id_personne";
+            $requete = $pdo->query($sqlQuery);
+
+            require "view/realisateur/listRealisateur.php";
+
+
+        }
+
+        public function filmographieRealisateur($id){
+
+            $pdo = Connect::seConnecter();
+            $sqlQuery = "SELECT id_film, nom, prenom, titre_film, YEAR(anne_sortie) AS anne_sortie
+            FROM personne
+            INNER JOIN realisateur ON personne.id_personne = realisateur.id_personne
+            INNER JOIN film ON realisateur.id_realisateur = film.id_realisateur
+            WHERE realisateur.id_realisateur = :id";
+            $requete = $pdo->prepare($sqlQuery);
+            $requete->execute(["id" => $id]);
+
+            require "view/realisateur/filmographieRealisateur.php";
+        }
+
+
 
 
     }

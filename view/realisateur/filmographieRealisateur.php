@@ -6,10 +6,7 @@
     <thead>
         <tr>
             <th>Titre Film</th>
-            <th>Duree</th>
             <th>Année de sortie</th>
-            <th>Prenom Réalisateur</th>
-            <th>Nom Réalisateur</th>
         </tr>
     </thead>
     <tbody>
@@ -20,10 +17,7 @@
 
             echo    "<tr>",
                         "<td><a href = index.php?action=detailFilm&id=$index>".$film['titre_film']."</a></td>",
-                        "<td>".$film['duree']."</td>",
                         "<td>".$film['anne_sortie']."</td>",
-                        "<td>".$film['prenom']."</td>",
-                        "<td>".$film['nom']."</td>",
                     "</tr>";
 }
 ?>
@@ -33,7 +27,7 @@
 <?php
 
 
-$titre = "Liste des films";
-$titre_secondaire = "Liste des films";
+$titre = "Filmographie de ".$film['prenom']." ".$film['nom'];
+$titre_secondaire = "Filmographie de ".$film['prenom']." ".$film['nom'];
 $contenu = ob_get_clean();
 require "view/template.php";

@@ -22,7 +22,7 @@ SELECT nom, prenom, titre_film, YEAR(anne_sortie) AS anne_sortie
 FROM personne
 INNER JOIN realisateur ON personne.id_personne = realisateur.id_personne
 INNER JOIN film ON realisateur.id_realisateur = film.id_realisateur
-WHERE id_personne = 2
+WHERE realisateur.id_personne = 2
 
 /*D. Nombre de films par genre (classés dans l’ordre décroissant)*/
 
