@@ -13,7 +13,7 @@ use Model\Connect;
         public function listFilms(){
 
             $pdo = Connect::seConnecter();
-            $sqlQuery = "SELECT titre_film, TIME_FORMAT(SEC_TO_TIME(duree_minutes*60), '%H:%i') AS duree, YEAR(anne_sortie) AS anne_sortie, nom, prenom
+            $sqlQuery = "SELECT id_film, titre_film, TIME_FORMAT(SEC_TO_TIME(duree_minutes*60), '%H:%i') AS duree, YEAR(anne_sortie) AS anne_sortie, nom, prenom
 FROM film
 INNER JOIN realisateur on film.id_realisateur = realisateur.id_realisateur
 INNER JOIN personne ON realisateur.id_personne = personne.id_personne
