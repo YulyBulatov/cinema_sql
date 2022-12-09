@@ -9,6 +9,7 @@
             <th>Duree</th>
             <th>Année de sortie</th>
             <th>Réalisateur</th>
+            <th>Action</th>
         </tr>
     </thead>
     <tbody>
@@ -23,6 +24,7 @@
                         "<td>".$film['duree']."</td>",
                         "<td>".$film['anne_sortie']."</td>",
                         "<td><a href = index.php?action=detailRealisateur&id=$indexR>".$film['prenom']." ".$film['nom']."</td>",
+                        "<td><a href=index.php?action=deleteFilm&id=$indexF>Supprimer</a></td>",
                     "</tr>";
 }
 ?>

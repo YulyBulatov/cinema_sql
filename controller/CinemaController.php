@@ -105,6 +105,17 @@ use Model\Connect;
             self::detailFilm($id);
         }
 
+        public function deleteFilm($id){
+
+            $pdo = Connect::seConnecter();
+            $sqlQuery = "DELETE FROM film
+            WHERE id_film = :id";
+            $requete = $pdo->prepare($sqlQuery);
+            $requete->execute(["id"=>$id]);
+
+            self::listFilms();
+        }
+
         public function formSynopsis($id){
 
             $pdo = Connect::seConnecter();
