@@ -8,22 +8,21 @@
             <th>Titre Film</th>
             <th>Duree</th>
             <th>Année de sortie</th>
-            <th>Prenom Réalisateur</th>
-            <th>Nom Réalisateur</th>
+            <th>Réalisateur</th>
         </tr>
     </thead>
     <tbody>
 <?php
     foreach($requete->fetchAll() as $film){
 
-        $index = $film['id_film'];
+        $indexF = $film['id_film'];
+        $indexR = $film['id_realisateur'];
 
             echo    "<tr>",
-                        "<td><a href = index.php?action=detailFilm&id=$index>".$film['titre_film']."</a></td>",
+                        "<td><a href = index.php?action=detailFilm&id=$indexF>".$film['titre_film']."</a></td>",
                         "<td>".$film['duree']."</td>",
                         "<td>".$film['anne_sortie']."</td>",
-                        "<td>".$film['prenom']."</td>",
-                        "<td>".$film['nom']."</td>",
+                        "<td><a href = index.php?action=detailRealisateur&id=$indexR>".$film['prenom']." ".$film['nom']."</td>",
                     "</tr>";
 }
 ?>

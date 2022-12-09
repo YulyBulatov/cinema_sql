@@ -6,8 +6,7 @@
     <thead>
         <tr>
             <th>Titre de Film</th>
-            <th>Nom Acteur</th>
-            <th>Prenom Acteur</th>
+            <th>Acteur</th>
         </tr>
     </thead>
     <tbody>
@@ -19,8 +18,7 @@
 
             echo    "<tr>",
                         "<td><a href = index.php?action=detailFilm&id=$indexF>".$film['titre_film']."</a></td>",
-                        "<td><a href = index.php?action=detailActeur&id=$indexA>".$film['nom']."</a></td>",
-                        "<td>".$film['prenom']."</td>",
+                        "<td><a href = index.php?action=detailActeur&id=$indexA>".$film['prenom']." ".$film['nom']."</a></td>",
                     "</tr>";
 }
 ?>

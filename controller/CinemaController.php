@@ -13,7 +13,7 @@ use Model\Connect;
         public function listFilms(){
 
             $pdo = Connect::seConnecter();
-            $sqlQuery = "SELECT id_film, titre_film, TIME_FORMAT(SEC_TO_TIME(duree_minutes*60), '%H:%i') AS duree, YEAR(anne_sortie) AS anne_sortie, nom, prenom
+            $sqlQuery = "SELECT film.id_film AS id_film, titre_film, TIME_FORMAT(SEC_TO_TIME(duree_minutes*60), '%H:%i') AS duree, YEAR(anne_sortie) AS anne_sortie, nom, prenom, realisateur.id_realisateur AS id_realisateur
             FROM film
             INNER JOIN realisateur on film.id_realisateur = realisateur.id_realisateur
             INNER JOIN personne ON realisateur.id_personne = personne.id_personne";
@@ -25,14 +25,23 @@ use Model\Connect;
         public function detailFilm($id){
 
             $pdo = Connect::seConnecter();
-            $sqlQuery = "SELECT titre_film, TIME_FORMAT(SEC_TO_TIME(duree_minutes*60), '%H:%i') AS duree, YEAR(anne_sortie) AS anne_sortie, nom, prenom, synopsis, note_film, id_film
+            $sqlQuery1 = "SELECT titre_film, TIME_FORMAT(SEC_TO_TIME(duree_minutes*60), '%H:%i') AS duree, YEAR(anne_sortie) AS anne_sortie, nom, prenom, synopsis, note_film, id_film
             FROM film
             INNER JOIN realisateur on film.id_realisateur = realisateur.id_realisateur
             INNER JOIN personne ON realisateur.id_personne = personne.id_personne
             WHERE id_film = :id
             ";
-            $requete = $pdo->prepare($sqlQuery);
-            $requete->execute(["id" => $id]);
+            $requete1 = $pdo->prepare($sqlQuery1);
+            $requete1->execute(["id" => $id]);
+            $sqlQuery2 = "SELECT titre_film, nom, prenom, sexe, nom_personnage, personnage.id_personnage AS id_personnage, acteur.id_acteur AS id_acteur, film.id_film AS id_film
+            FROM film
+            INNER JOIN casting ON film.id_film = casting.id_film
+            INNER JOIN personnage ON casting.id_personnage = personnage.id_personnage
+            INNER JOIN acteur ON casting.id_acteur = acteur.id_acteur
+            INNER JOIN personne ON acteur.id_personne = personne.id_personne
+            WHERE film.id_film = :id";
+            $requete2 = $pdo->prepare($sqlQuery2);
+            $requete2->execute(["id" => $id]);
 
             require "view/film/detailFilm.php";
         }
