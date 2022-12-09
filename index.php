@@ -35,6 +35,7 @@ if (isset($_GET["action"])){
         case "detailPersonnage": $ctrlCinema->detailPersonnage($id); break;
 
         case "home": $ctrlHome->index(); break;
+        case "formAddFilm": $ctrlHome->formAddFilm(); break;
     }
 }
 else{
