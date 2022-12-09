@@ -18,6 +18,7 @@
           </label><br>",                            //Le code pour rating pris ici :https://dev.to/madsstoumann/star-rating-using-a-single-input-i0l//
           "<p>Réalisateur : ".$film['prenom']." ".$film['nom']."</p><br>",
           "<p>Synopsis : <br>".$film['synopsis']."</p><br>",
+          "<a href=index.php?action=formSynopsis&id=$index>Ajouter/Modifier le synopsis</a><br>",
           "<p> Casting : </p><br>";              
 }?>
 

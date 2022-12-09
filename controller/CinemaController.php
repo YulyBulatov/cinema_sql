@@ -103,7 +103,40 @@ use Model\Connect;
             $id = $pdo->lastInsertId();
 
             self::detailFilm($id);
+        }
 
+        public function formSynopsis($id){
+
+            $pdo = Connect::seConnecter();
+            $sqlQuery = "SELECT id_film, titre_film, synopsis
+            FROM film
+            WHERE id_film = :id";
+            $requete = $pdo->prepare($sqlQuery);
+            $requete->execute(["id"=>$id]);
+
+            require "view/film/formSynopsis.php";
+        }
+
+        public function addSynopsis(){
+
+            $pdo = Connect::seConnecter();
+
+            if(isset($_POST['submit'])){
+                $synopsis = filter_input(INPUT_POST, "synopsis", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                $id_film = filter_input(INPUT_POST, "id_film", FILTER_SANITIZE_NUMBER_INT);
+
+                $sqlQuery = "UPDATE film
+                SET synopsis = :synopsis
+                WHERE id_film = :id_film";
+                $requete = $pdo->prepare($sqlQuery);
+                $requete->bindValue(':synopsis', $synopsis);
+                $requete->bindValue(':id_film', $id_film);
+                $requete->execute();
+            }
+
+
+        
+            self::detailFilm($id_film);
 
         }
 
