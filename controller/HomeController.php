@@ -8,7 +8,4 @@ class HomeController {
         require "view/home/home.php";
     }
 
-    public function formAddFilm(){
-        require "view/home/formAddFilm";
-    }
 }

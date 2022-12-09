@@ -62,6 +62,51 @@ use Model\Connect;
             require "view/film/castingFilm.php";
         }
 
+        public function formAddFilm(){
+
+            $pdo = Connect::seConnecter();
+            $sqlQuery = "SELECT id_realisateur, nom, prenom
+            FROM personne, realisateur
+            WHERE personne.id_personne = realisateur.id_personne";
+            $requete = $pdo->query($sqlQuery);
+
+            require "view/film/formAddFilm.php";
+        }
+
+        public function addFilm(){
+
+            $pdo = Connect::seConnecter();
+
+            if(isset($_POST['submit'])){
+
+                $titre = filter_input(INPUT_POST, "titre_film", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                $annee = filter_input(INPUT_POST, "annee_sortie");
+                $duree = filter_input(INPUT_POST, "duree_minutes", FILTER_SANITIZE_NUMBER_INT);
+                $synopsis = filter_input(INPUT_POST, "synopsis", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                $note = filter_input(INPUT_POST, "note_film",FILTER_SANITIZE_NUMBER_INT);
+                $affiche = filter_input(INPUT_POST, "affiche_film", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                $realisateur = filter_input(INPUT_POST,"realisateur", FILTER_SANITIZE_NUMBER_INT);
+
+                $sqlQuery = "INSERT INTO film (titre_film, anne_sortie, duree_minutes, synopsis, note_film, affiche_film, id_realisateur)
+                VALUES (:titre_film, :anne_sortie, :duree, :synopsis, :note_film, :affiche_film, :id_realisateur)";
+                $requete = $pdo->prepare($sqlQuery);
+                $requete->bindValue(':titre_film', $titre);
+                $requete->bindValue(':anne_sortie', $annee);
+                $requete->bindValue(':duree', $duree);
+                $requete->bindValue(':synopsis', $synopsis);
+                $requete->bindValue(':note_film', $note);
+                $requete->bindValue(':affiche_film', $affiche);
+                $requete->bindValue(':id_realisateur', $realisateur);
+                $requete->execute();
+            }
+
+            $id = $pdo->lastInsertId();
+
+            self::detailFilm($id);
+
+
+        }
+
         public function listRealisateurs(){
 
             $pdo = Connect::seConnecter();

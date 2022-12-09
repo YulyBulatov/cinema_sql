@@ -29,7 +29,7 @@
     </tbody>
 </table>
 
-<a href=
+<a href=index.php?action=formAddFilm>Ajouter un nouveau film</a>
 
 <?php
 
