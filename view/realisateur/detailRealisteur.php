@@ -1,7 +1,5 @@
 <?php ob_start(); ?>
 
-<p>Il y a <?= $requete->rowCount() ?> realisateur(s)</p>
-
 <table>
     <thead>
         <tr>
@@ -31,7 +29,7 @@
 <?php
 
 
-$titre = "Liste des réalisateurs";
-$titre_secondaire = "Liste des réalisateurs";
+$titre = "Détail de réalisateur";
+$titre_secondaire = "Détail de réalisateur";
 $contenu = ob_get_clean();
 require "view/template.php";

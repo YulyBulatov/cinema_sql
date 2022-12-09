@@ -7,7 +7,7 @@ abstract class Connect{
     const HOST = "localhost";
     const DB = "cinema_yuly";
     const USER = "root";
-    const PASS = "root";
+    const PASS = "";
 
     public static function seConnecter() {
          try
