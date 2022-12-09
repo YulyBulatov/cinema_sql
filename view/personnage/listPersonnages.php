@@ -22,6 +22,11 @@
     </tbody>
 </table>
 
+<br>
+
+<a href=index.php?action=addPersonnage>Ajouter un nouveau personnage</a>
+
+
 <?php
 
 
