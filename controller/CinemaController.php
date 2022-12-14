@@ -308,6 +308,18 @@ use Model\Connect;
             
         }
 
+        public function deleteGenre($id){
+
+            $pdo = Connect::seConnecter();
+            $sqlQuery = "DELETE FROM genre
+            WHERE id_genre = :id";
+            $requete = $pdo->prepare($sqlQuery);
+            $requete->execute(["id" => $id]);
+
+            self::listGenres();
+
+        }
+
         public function listPersonnages(){
 
             $pdo = Connect::seConnecter();

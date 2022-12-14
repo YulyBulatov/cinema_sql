@@ -6,6 +6,7 @@
     <thead>
         <tr>
             <th>Genre</th>
+            <th>Action</th>
         </tr>
     </thead>
     <tbody>
@@ -16,6 +17,7 @@
 
             echo    "<tr>",
                         "<td><a href=index.php?action=filmsGenre&id=$index>".$genre['nom_genre']."</a></td>",
+                        "<td><a href=index.php?action=deleteGenre&id=$index>Supprimer</a></td>",
                     "</tr>";
 }
 ?>
