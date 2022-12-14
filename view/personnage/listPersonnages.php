@@ -6,6 +6,7 @@
     <thead>
         <tr>
             <th>Nom de personnage</th>
+            <th>Action</th>
         </tr>
     </thead>
     <tbody>
@@ -16,6 +17,7 @@
 
             echo    "<tr>",
                         "<td><a href=index.php?action=detailPersonnage&id=$index>".$personnage['nom_personnage']."</a></td>",
+                        "<td><a href=index.php?action=deletePersonnage&id=$index>Supprimer</a></td>",
                     "</tr>";
 }
 ?>

@@ -368,6 +368,17 @@ use Model\Connect;
 
         }
 
+        public function deletePersonnage($id){
+
+            $pdo = Connect::seConnecter();
+            $sqlQuery = "DELETE FROM personnage
+            WHERE id_personnage = :id";
+            $requete = $pdo->prepare($sqlQuery);
+            $requete->execute(["id" => $id]);
+
+            self::listPersonnages();
+        }
+
 
 
     }
