@@ -69,12 +69,16 @@ use Model\Connect;
             FROM personne, realisateur
             WHERE personne.id_personne = realisateur.id_personne";
             $requete = $pdo->query($sqlQuery);
+            $sqlQuery2 = "SELECT *
+            FROM genre";
+            $requete2 = $pdo->query($sqlQuery2);
 
             require "view/film/formAddFilm.php";
         }
 
         public function addFilm(){
 
+            
             $pdo = Connect::seConnecter();
 
             if(isset($_POST['submit'])){
@@ -86,32 +90,51 @@ use Model\Connect;
                 $note = filter_input(INPUT_POST, "note_film",FILTER_SANITIZE_NUMBER_INT);
                 $affiche = filter_input(INPUT_POST, "affiche_film", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
                 $realisateur = filter_input(INPUT_POST,"realisateur", FILTER_SANITIZE_NUMBER_INT);
+                $genres = filter_input(INPUT_POST, "genre", FILTER_DEFAULT, FILTER_REQUIRE_ARRAY);
 
-                $sqlQuery = "INSERT INTO film (titre_film, anne_sortie, duree_minutes, synopsis, note_film, affiche_film, id_realisateur)
-                VALUES (:titre_film, :anne_sortie, :duree, :synopsis, :note_film, :affiche_film, :id_realisateur)";
-                $requete = $pdo->prepare($sqlQuery);
-                $requete->bindValue(':titre_film', $titre);
-                $requete->bindValue(':anne_sortie', $annee);
-                $requete->bindValue(':duree', $duree);
-                $requete->bindValue(':synopsis', $synopsis);
-                $requete->bindValue(':note_film', $note);
-                $requete->bindValue(':affiche_film', $affiche);
-                $requete->bindValue(':id_realisateur', $realisateur);
-                $requete->execute();
+                if($titre && $annee && $duree && $synopsis && $affiche && $realisateur && $genres){
+
+                    $sqlQuery = "INSERT INTO film (titre_film, anne_sortie, duree_minutes, synopsis, note_film, affiche_film, id_realisateur)
+                    VALUES (:titre_film, :anne_sortie, :duree, :synopsis, :note_film, :affiche_film, :id_realisateur)";
+                    $requete = $pdo->prepare($sqlQuery);
+                    $requete->bindValue(':titre_film', $titre);
+                    $requete->bindValue(':anne_sortie', $annee);
+                    $requete->bindValue(':duree', $duree);
+                    $requete->bindValue(':synopsis', $synopsis);
+                    $requete->bindValue(':note_film', $note);
+                    $requete->bindValue(':affiche_film', $affiche);
+                    $requete->bindValue(':id_realisateur', $realisateur);
+                    $requete->execute();
+
+                    $id_film = $pdo->lastInsertId();
+
+                    foreach ($genres as $genre){
+                        $sqlQuery = "INSERT INTO posseder 
+                        VALUES (:film, :genre)";
+                        $requete = $pdo->prepare($sqlQuery);
+                        $requete->bindValue(':genre', $genre);
+                        $requete->bindValue(':film', $id_film);
+                        $requete->execute(); 
+                    }
+                }
             }
+            
 
-            $id = $pdo->lastInsertId();
-
-            self::detailFilm($id);
+            self::detailFilm($id_film);
         }
 
         public function deleteFilm($id){
 
             $pdo = Connect::seConnecter();
+            $sqlQuery = "DELETE FROM posseder
+            WHERE id_film = :id";
+            $requete = $pdo->prepare($sqlQuery);
+            $requete->execute(["id"=>$id]); 
             $sqlQuery = "DELETE FROM film
             WHERE id_film = :id";
             $requete = $pdo->prepare($sqlQuery);
             $requete->execute(["id"=>$id]);
+            
 
             self::listFilms();
         }
@@ -136,13 +159,15 @@ use Model\Connect;
                 $synopsis = filter_input(INPUT_POST, "synopsis", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
                 $id_film = filter_input(INPUT_POST, "id_film", FILTER_SANITIZE_NUMBER_INT);
 
-                $sqlQuery = "UPDATE film
-                SET synopsis = :synopsis
-                WHERE id_film = :id_film";
-                $requete = $pdo->prepare($sqlQuery);
-                $requete->bindValue(':synopsis', $synopsis);
-                $requete->bindValue(':id_film', $id_film);
-                $requete->execute();
+                if($synopsis && $id_film){
+                    $sqlQuery = "UPDATE film
+                    SET synopsis = :synopsis
+                    WHERE id_film = :id_film";
+                    $requete = $pdo->prepare($sqlQuery);
+                    $requete->bindValue(':synopsis', $synopsis);
+                    $requete->bindValue(':id_film', $id_film);
+                    $requete->execute();
+                }
             }
 
 

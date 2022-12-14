@@ -54,6 +54,16 @@
         </label>
     </p>
     <p>
+        <label>
+            Genre du film :
+            <fieldset>
+                <?php foreach($requete2->fetchAll() as $genre){
+                    echo "<input type='checkbox' name='genre[]' value = '".$genre['id_genre']."'>".$genre['nom_genre'];"</input>";
+                }?>
+            </fieldset>
+        </label>
+    </p>
+    <p>
         <input type="submit" name="submit" value="Ajouter un film">
     </p>
 </form>
