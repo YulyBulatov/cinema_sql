@@ -25,14 +25,22 @@ use Model\Connect;
         public function detailFilm($id){
 
             $pdo = Connect::seConnecter();
-            $sqlQuery1 = "SELECT titre_film, TIME_FORMAT(SEC_TO_TIME(duree_minutes*60), '%H:%i') AS duree, YEAR(anne_sortie) AS anne_sortie, nom, prenom, synopsis, note_film, id_film
+            $sqlQuery = "SELECT titre_film, TIME_FORMAT(SEC_TO_TIME(duree_minutes*60), '%H:%i') AS duree, YEAR(anne_sortie) AS anne_sortie, nom, prenom, synopsis, note_film, id_film, film.id_realisateur AS id_realisateur
             FROM film
             INNER JOIN realisateur on film.id_realisateur = realisateur.id_realisateur
             INNER JOIN personne ON realisateur.id_personne = personne.id_personne
             WHERE id_film = :id
             ";
+            $requete = $pdo->prepare($sqlQuery);
+            $requete->execute(["id" => $id]);
+
+            $sqlQuery1 = "SELECT nom_genre, genre.id_genre AS id_genre
+            FROM genre
+            INNER JOIN posseder ON genre.id_genre = posseder.id_genre
+            WHERE id_film = :id";
             $requete1 = $pdo->prepare($sqlQuery1);
             $requete1->execute(["id" => $id]);
+
             $sqlQuery2 = "SELECT titre_film, nom, prenom, sexe, nom_personnage, personnage.id_personnage AS id_personnage, acteur.id_acteur AS id_acteur, film.id_film AS id_film
             FROM film
             INNER JOIN casting ON film.id_film = casting.id_film
@@ -278,6 +286,26 @@ use Model\Connect;
             $requete->execute(["id" => $id]);
 
             require "view/genre/filmsGenre.php";    
+        }
+
+        public function addGenre(){
+
+            if(isset($_POST['submit'])){
+
+                $nom_genre = filter_input(INPUT_POST, "nom_genre", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+                if($nom_genre){
+
+                    $pdo = Connect::seConnecter();
+                    $sqlQuery =  "INSERT INTO genre (nom_genre)
+                    VALUES (:nom_genre)";
+                    $requete = $pdo->prepare($sqlQuery);
+                    $requete->execute(["nom_genre" => $nom_genre]);
+                }
+            }
+
+            self::listGenres();
+            
         }
 
         public function listPersonnages(){

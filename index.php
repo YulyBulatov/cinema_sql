@@ -36,6 +36,7 @@ if (isset($_GET["action"])){
         case "filmographieActeur": $ctrlCinema->filmographieActeur($id); break;
         case "listGenres":$ctrlCinema->listGenres(); break;
         case "filmsGenre":$ctrlCinema->filmsGenre($id); break;
+        case "addGenre":$ctrlCinema->addGenre(); break;
         case "listPersonnages":$ctrlCinema->listPersonnages(); break;
         case "detailPersonnage": $ctrlCinema->detailPersonnage($id); break;
 
