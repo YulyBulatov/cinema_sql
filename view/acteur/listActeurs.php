@@ -30,6 +30,24 @@
     </tbody>
 </table>
 
+<br>
+
+<form action="index.php?action=addActeur" method="post">
+    <label>Nom : 
+        <input type="text" name="nom">
+    </label>
+    <label>Prenom :
+        <input type="text" name="prenom">
+    </label>
+    <label>Sexe :
+        <input type="radio" name="sexe" value="f">
+        <input type="radio" name="sexe" value="m">
+        <input type="radio" name="sexe" value="Autre">
+    </label>
+    <label>Date de naissance :
+        <input type="date" name="date_naissance">
+    </label>
+</form>
 <?php
 
 
