@@ -36,8 +36,8 @@
     <thead>
         <tr>
             <th>Acteur</th>
-            <th>Sexe</th>
             <th>Nom de personnage</th>
+            <th>Action</th>
         </tr>
     </thead>
     <tbody>
@@ -49,11 +49,32 @@
 
             echo    "<tr>",
                         "<td><a href = index.php?action=detailActeur&id=$indexA>".$role['prenom']." ".$role['nom']."</a></td>",
-                        "<td>".$role['sexe']."</td>",
                         "<td><a href = index.php?action=detailPersonnage&id=$indexP>".$role['nom_personnage']."</a></td>",
+                        "<td><a href = index.php?action=deleteCasting&id_a=$indexA&id_p=$indexP</td>",
                     "</tr>";
 }
 ?>
+    <tr>
+        <form action=index.php?action=addCasting&id=$index method="post"> 
+            <td>
+                <select name="acteur">
+                    <?php foreach($requete3->fetchALL() as $acteur){
+                        echo "<option value = '".$acteur['id_acteur']."'>".$acteur['prenom']." ".$acteur['nom']."</option>";                    
+                    }?>
+                </select>
+            </td>
+            <td>
+                <select name="personnage">
+                    <?php foreach($requete4->fetchALL() as $personnage){
+                        echo "<option value = '".$personnage['id_personnage']."'>".$personnage['nom_personnage']."</option>";                    
+                    }?>
+                </select>
+            </td>
+            <td>
+                <input type="submit" name="submit" value="Ajouter">
+            </td>
+        </form>
+    </tr>
     </tbody>
 </table>
 

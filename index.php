@@ -16,6 +16,8 @@ $ctrlCinema = new CinemaController();
 $ctrlHome = new HomeController();
 
 $id = (isset($_GET["id"])) ? $_GET["id"] : null;
+$id_a = (isset($_GET["id_a"])) ? $_GET["id_a"] : null;
+$id_p = (isset($_GET["id_p"])) ? $_GET["id_p"] : null;
 
 if (isset($_GET["action"])){
     switch ($_GET["action"]){
@@ -31,6 +33,8 @@ if (isset($_GET["action"])){
         case "listRealisateurs": $ctrlCinema->listRealisateurs(); break;
         case "detailRealisateur": $ctrlCinema->detailRealisateur($id); break;   
         case "filmographieRealisateur": $ctrlCinema->filmographieRealisateur($id); break;
+        case "addRealisateur": $ctrlCinema->addRealisateur(); break;
+        case "deleteRealisateur": $ctrlCinema->deleteRealisateur($id); break;
         case "listActeurs": $ctrlCinema->listActeurs(); break;
         case "detailActeur": $ctrlCinema->detailActeur($id); break;
         case "filmographieActeur": $ctrlCinema->filmographieActeur($id); break;
