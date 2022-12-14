@@ -225,7 +225,7 @@ use Model\Connect;
         public function listActeurs(){
 
             $pdo = Connect::seConnecter();
-            $sqlQuery = "SELECT id_acteur, nom, prenom, FLOOR(DATEDIFF(NOW(), date_naissance) / 365.25) AS age, sexe
+            $sqlQuery = "SELECT id_acteur, nom, prenom, FLOOR(DATEDIFF(NOW(), date_naissance) / 365.25) AS age, sexe, personne.id_personne AS id_personne
             FROM personne, acteur
             WHERE personne.id_personne = acteur.id_personne";
             $requete = $pdo->query($sqlQuery);
@@ -246,11 +246,10 @@ use Model\Connect;
 
         }
 
-
         public function filmographieActeur($id){
 
             $pdo = Connect::seConnecter();
-            $sqlQuery = "SELECT nom, prenom, film.id_film, titre_film, nom_personnage, YEAR(anne_sortie) AS anne_sortie
+            $sqlQuery = "SELECT nom, prenom, film.id_film AS id_film, titre_film, nom_personnage, YEAR(anne_sortie) AS anne_sortie
             FROM personne
             INNER JOIN acteur ON personne.id_personne = acteur.id_personne
             INNER JOIN casting ON acteur.id_acteur = casting.id_acteur
@@ -261,7 +260,57 @@ use Model\Connect;
             $requete = $pdo->prepare($sqlQuery);
             $requete->execute(["id" => $id]);
 
-            require "view/realisateur/filmographieRealisateur.php";
+            require "view/acteur/filmographieActeur.php";
+        }
+
+        public function addActeur(){
+
+            if(isset($_POST['submit'])){
+
+                $nom = filter_input(INPUT_POST, "nom", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                $prenom = filter_input(INPUT_POST, "prenom", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                $sexe = filter_input(INPUT_POST, "sexe", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                $date = filter_input(INPUT_POST, "date_naissance");
+
+                if($nom && $prenom && $sexe && $date){
+
+                    $pdo = Connect::seConnecter();
+                    $sqlQuery = "INSERT INTO personne (nom, prenom, sexe, date_naissance)
+                    VALUES (:nom, :prenom, :sexe, :date_naissance)";
+                    $requete = $pdo->prepare($sqlQuery);
+                    $requete->bindValue(":nom", $nom);
+                    $requete->bindValue(":prenom", $prenom);
+                    $requete->bindValue(":sexe", $sexe);
+                    $requete->bindValue(":date_naissance", $date);
+                    $requete->execute();
+
+                    $id = $pdo->lastInsertId();
+
+                    $sqlQuery = "INSERT INTO acteur (id_personne)
+                    VALUES (:id)";
+                    $requete = $pdo->prepare($sqlQuery);
+                    $requete->execute(["id" => $id]);
+
+                }
+            }
+
+            self::listActeurs();
+        }
+
+        public function deleteActeur($id){
+
+            $pdo = Connect::seConnecter();
+            $sqlQuery = "DELETE FROM acteur
+            WHERE id_personne = :id";
+            $requete = $pdo->prepare($sqlQuery);
+            $requete->execute(["id" => $id]);
+
+            $sqlQuery = "DELETE FROM personne
+            WHERE id_personne = :id";
+            $requete = $pdo->prepare($sqlQuery);
+            $requete->execute(["id" => $id]);
+
+            self::listActeurs();
         }
 
         public function listGenres(){
