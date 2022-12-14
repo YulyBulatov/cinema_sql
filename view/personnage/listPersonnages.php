@@ -24,7 +24,12 @@
 
 <br>
 
-<a href=index.php?action=addPersonnage>Ajouter un nouveau personnage</a>
+<p>Ajouter un nouveau personnage : </p>
+<form action=index.php?action=addPersonnage method="post">
+    <input type="text" name = "nom_personnage" maxlength="255">
+    <input type="submit" name = "submit" value="Ajouter">
+</form>
+
 
 
 <?php

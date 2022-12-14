@@ -28,7 +28,7 @@
 
 <p>Ajouter un nouveau genre : </p>
 <form action=index.php?action=addGenre method="post">
-    <input type="text" name = "nom_genre">
+    <input type="text" name = "nom_genre" maxlength="50">
     <input type="submit" name = "submit" value="Ajouter">
 </form>
 

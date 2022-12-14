@@ -40,6 +40,8 @@ if (isset($_GET["action"])){
         case "deleteGenre":$ctrlCinema->deleteGenre($id); break;
         case "listPersonnages":$ctrlCinema->listPersonnages(); break;
         case "detailPersonnage": $ctrlCinema->detailPersonnage($id); break;
+        case "addPersonnage": $ctrlCinema->addPersonnage(); break;
+
 
         case "home": $ctrlHome->index(); break;
         

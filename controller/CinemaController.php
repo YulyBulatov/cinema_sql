@@ -347,6 +347,27 @@ use Model\Connect;
 
         }
 
+        public function addPersonnage(){
+
+            if(isset($_POST['submit'])){
+
+                $nom_personnage = filter_input(INPUT_POST, "nom_personnage", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                
+                if($nom_personnage){
+
+                    $pdo = Connect::seConnecter();
+                    $sqlQuery = "INSERT INTO personnage (nom_personnage)
+                    VALUES (:nom_personnage)";
+                    $requete = $pdo->prepare($sqlQuery);
+                    $requete->execute(["nom_personnage" => $nom_personnage]);
+
+                }
+            }
+
+            self::listPersonnages();
+
+        }
+
 
 
     }
