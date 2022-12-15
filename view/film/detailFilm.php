@@ -50,12 +50,12 @@
             echo    "<tr>",
                         "<td><a href = index.php?action=detailActeur&id=$indexA>".$role['prenom']." ".$role['nom']."</a></td>",
                         "<td><a href = index.php?action=detailPersonnage&id=$indexP>".$role['nom_personnage']."</a></td>",
-                        "<td><a href = index.php?action=deleteCasting&id_a=$indexA&id_p=$indexP</td>",
+                        "<td><a href = index.php?action=deleteCasting&id=$index&id_a=$indexA&id_p=$indexP>Supprimer</a></td>",
                     "</tr>";
 }
 ?>
     <tr>
-        <form action=index.php?action=addCasting&id=$index method="post"> 
+        <form action="index.php?action=addCasting" method="post"> 
             <td>
                 <select name="acteur">
                     <?php foreach($requete3->fetchALL() as $acteur){
@@ -71,8 +71,10 @@
                 </select>
             </td>
             <td>
+                <input type="hidden" name="id_film" value=<?= $index?>>
                 <input type="submit" name="submit" value="Ajouter">
             </td>
+            
         </form>
     </tr>
     </tbody>

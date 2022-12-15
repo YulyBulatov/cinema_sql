@@ -48,6 +48,8 @@ if (isset($_GET["action"])){
         case "detailPersonnage": $ctrlCinema->detailPersonnage($id); break;
         case "addPersonnage": $ctrlCinema->addPersonnage(); break;
         case "deletePersonnage": $ctrlCinema->deletePersonnage($id); break;
+        case "addCasting": $ctrlCinema->addCasting($id); break;
+        case "deleteCasting": $ctrlCinema->deleteCasting($id, $id_a, $id_p); break;
         
 
 

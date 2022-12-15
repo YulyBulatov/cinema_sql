@@ -487,20 +487,43 @@ use Model\Connect;
             self::listPersonnages();
         }
 
-        public function addCasting($id){
+        public function addCasting(){
 
             if(isset($_POST["submit"])){
 
                 $id_acteur = filter_input(INPUT_POST, "acteur", FILTER_SANITIZE_NUMBER_INT);
                 $id_personnage = filter_input(INPUT_POST, "personnage", FILTER_SANITIZE_NUMBER_INT);
+                $id_film = filter_input(INPUT_POST, "id_film", FILTER_SANITIZE_NUMBER_INT);
 
-                if($id_acteur && $id_personnage){
+                if($id_acteur && $id_personnage && $id_film){
 
                     $pdo = Connect::seConnecter();
                     $sqlQuery = "INSERT INTO casting
                     VALUES (:id_film, :id_acteur, :id_personnage)";
+                    $requete = $pdo->prepare($sqlQuery);
+                    $requete->bindValue("id_acteur", $id_acteur);
+                    $requete->bindValue("id_personnage", $id_personnage);
+                    $requete->bindValue("id_film", $id_film);
+                    $requete->execute();
+
                 }
             }
+
+            self::detailFilm($id_film);
+        }
+
+        public function deleteCasting($id_film, $id_acteur, $id_personnage){
+
+            $pdo = Connect::seConnecter();
+            $sqlQuery = "DELETE FROM casting
+            WHERE id_film = :id_film AND id_acteur = :id_acteur AND id_personnage = :id_personnage";
+            $requete = $pdo->prepare($sqlQuery);
+            $requete->bindValue("id_acteur", $id_acteur);
+            $requete->bindValue("id_personnage", $id_personnage);
+            $requete->bindValue("id_film", $id_film);
+            $requete->execute();
+
+            self::detailFilm($id_film);
         }
 
 
