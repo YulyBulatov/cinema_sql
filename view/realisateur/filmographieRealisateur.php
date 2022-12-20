@@ -11,6 +11,7 @@
     </thead>
     <tbody>
 <?php
+
     foreach($requete->fetchAll() as $film){
 
         $index = $film['id_film'];
@@ -19,15 +20,21 @@
                         "<td><a href = index.php?action=detailFilm&id=$index>".$film['titre_film']."</a></td>",
                         "<td>".$film['anne_sortie']."</td>",
                     "</tr>";
-}
+        }             
 ?>
     </tbody>
 </table>
 
+<br>
+
+<p>Ce réalisateur n'a pas votre film préféré?<br>
+Vous pouvez rajouter un nouveau film <a href=index.php?action=formAddFilm>ici</a>.</p>
 <?php
 
+foreach($requete1->fetchALL() as $realisateur){
 
-$titre = "Filmographie de ".$film['prenom']." ".$film['nom'];
-$titre_secondaire = "Filmographie de ".$film['prenom']." ".$film['nom'];
+    $titre = "Filmographie de ".$realisateur['prenom']." ".$realisateur['nom'];
+    $titre_secondaire = "Filmographie de ".$realisateur['prenom']." ".$realisateur['nom'];
+}
 $contenu = ob_get_clean();
 require "view/template.php";

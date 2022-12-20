@@ -227,6 +227,12 @@ use Model\Connect;
             WHERE realisateur.id_realisateur = :id";
             $requete = $pdo->prepare($sqlQuery);
             $requete->execute(["id" => $id]);
+            $sqlQuery = "SELECT id_realisateur, nom, prenom, FLOOR(DATEDIFF(NOW(), date_naissance) / 365.25) AS age, sexe
+            FROM personne, realisateur
+            WHERE personne.id_personne = realisateur.id_personne AND realisateur.id_realisateur = :id";
+            $requete1 = $pdo->prepare($sqlQuery);
+            $requete1->execute(["id" => $id]);
+
 
             require "view/realisateur/filmographieRealisateur.php";
         }
@@ -318,6 +324,22 @@ use Model\Connect;
             ORDER BY anne_sortie DESC";
             $requete = $pdo->prepare($sqlQuery);
             $requete->execute(["id" => $id]);
+
+            $sqlQuery = "SELECT id_acteur, nom, prenom, FLOOR(DATEDIFF(NOW(), date_naissance) / 365.25) AS age, sexe
+            FROM personne, acteur
+            WHERE personne.id_personne = acteur.id_personne AND acteur.id_acteur = :id";
+            $requete1 = $pdo->prepare($sqlQuery);
+            $requete1->execute(["id" => $id]);
+
+            $sqlQuery3 = "SELECT id_film, titre_film
+            FROM film";
+            $requete3 = $pdo->query($sqlQuery3);
+
+            $sqlQuery4 = "SELECT id_personnage, nom_personnage
+            FROM personnage";
+            $requete4 = $pdo->query($sqlQuery4);
+
+
 
             require "view/acteur/filmographieActeur.php";
         }
@@ -524,6 +546,31 @@ use Model\Connect;
             $requete->execute();
 
             self::detailFilm($id_film);
+        }
+
+        public function addCastingActeur(){
+
+            if(isset($_POST["submit"])){
+
+                $id_acteur = filter_input(INPUT_POST, "id_acteur", FILTER_SANITIZE_NUMBER_INT);
+                $id_personnage = filter_input(INPUT_POST, "personnage", FILTER_SANITIZE_NUMBER_INT);
+                $id_film = filter_input(INPUT_POST, "film", FILTER_SANITIZE_NUMBER_INT);
+
+                if($id_acteur && $id_personnage && $id_film){
+
+                    $pdo = Connect::seConnecter();
+                    $sqlQuery = "INSERT INTO casting
+                    VALUES (:id_film, :id_acteur, :id_personnage)";
+                    $requete = $pdo->prepare($sqlQuery);
+                    $requete->bindValue("id_acteur", $id_acteur);
+                    $requete->bindValue("id_personnage", $id_personnage);
+                    $requete->bindValue("id_film", $id_film);
+                    $requete->execute();
+
+                }
+            }
+
+            self::filmographieActeur($id_acteur);
         }
 
 
