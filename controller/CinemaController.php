@@ -25,7 +25,7 @@ use Model\Connect;
         public function detailFilm($id){
 
             $pdo = Connect::seConnecter();
-            $sqlQuery = "SELECT titre_film, TIME_FORMAT(SEC_TO_TIME(duree_minutes*60), '%H:%i') AS duree, YEAR(anne_sortie) AS anne_sortie, nom, prenom, synopsis, note_film, id_film, film.id_realisateur AS id_realisateur
+            $sqlQuery = "SELECT titre_film, TIME_FORMAT(SEC_TO_TIME(duree_minutes*60), '%H:%i') AS duree, YEAR(anne_sortie) AS anne_sortie, nom, prenom, synopsis, note_film, likes, id_film, film.id_realisateur AS id_realisateur
             FROM film
             INNER JOIN realisateur on film.id_realisateur = realisateur.id_realisateur
             INNER JOIN personne ON realisateur.id_personne = personne.id_personne
@@ -573,6 +573,21 @@ use Model\Connect;
             self::filmographieActeur($id_acteur);
         }
 
+        public function like($id){
+               
+            $pdo = Connect::seConnecter();
+            $sqlQuery = "UPDATE film
+            SET likes = likes + 1
+            WHERE id_film = :id_film";
+            $requete = $pdo->prepare($sqlQuery);
+            $requete->execute(["id_film" => $id]);
+            
+            self::detailFilm($id);
+        }
+
+            
+        }        
 
 
-    }
+
+    

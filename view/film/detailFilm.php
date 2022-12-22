@@ -80,7 +80,10 @@
     </tbody>
 </table>
 
-
+<div class = "likes">
+    <p>Nombre de likes: <?= $film["likes"]?> </p>
+    <button type="button"><a class="fa fa-thumbs-up" href="index.php?action=like&id=<?= $index?>"></a></button>
+</div>
 <?php
 
 $titre = "Détail du film ".$film['titre_film'];

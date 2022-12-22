@@ -50,6 +50,7 @@ if (isset($_GET["action"])){
         case "deletePersonnage": $ctrlCinema->deletePersonnage($id); break;
         case "addCasting": $ctrlCinema->addCasting($id); break;
         case "deleteCasting": $ctrlCinema->deleteCasting($id, $id_a, $id_p); break;
+        case "like":$ctrlCinema->like($id); break;
         
 
 
