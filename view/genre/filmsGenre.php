@@ -1,7 +1,7 @@
 <?php ob_start(); ?>
 
 <p>Il y a <?= $requete->rowCount() ?> film(s)</p>
-
+<div class="table-wrapper">
 <table>
     <thead>
         <tr>
@@ -21,7 +21,7 @@
 ?>
     </tbody>
 </table>
-
+</div>
 <?php
 
 

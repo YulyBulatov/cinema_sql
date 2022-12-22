@@ -29,11 +29,16 @@
         <label>
             Note de film (sur 5) :
             <fieldset>
-                <input type="radio" name="note_film" value =1 checked>1<br>
-                <input type="radio" name="note_film" value =2>2<br>
-                <input type="radio" name="note_film" value =3>3<br>
-                <input type="radio" name="note_film" value =4>4<br>
-                <input type="radio" name="note_film" value =5>5<br>
+                <label for="1">1</label>
+                <input type="radio" name="note_film" id="1" value=1 checked><br>
+                <label for="2">2</label>
+                <input type="radio" name="note_film" id="2" value=2><br>
+                <label for="3">3</label>
+                <input type="radio" name="note_film" id="3" value =3><br>
+                <label for="4">4</label>
+                <input type="radio" name="note_film" id="4" value =4><br>
+                <label for="5">5</label>
+                <input type="radio" name="note_film" id="5" value =5><br>
             </fieldset>
         </label>
      </p>
@@ -58,7 +63,8 @@
             Genre du film :
             <fieldset>
                 <?php foreach($requete2->fetchAll() as $genre){
-                    echo "<input type='checkbox' name='genre[]' value = '".$genre['id_genre']."'>".$genre['nom_genre'];"</input>";
+                    echo "<input type='checkbox' name='genre[]' value = '".$genre['id_genre']."'></input>";
+                    echo "<label>".$genre['nom_genre']."</label>";
                 }?>
             </fieldset>
         </label>

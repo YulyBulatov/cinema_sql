@@ -2,6 +2,7 @@
 
 <p>Il y a <?= $requete->rowCount() ?> film(s)</p>
 
+<div class="table-wrapper">
 <table>
     <thead>
         <tr>
@@ -25,7 +26,7 @@
 ?>
     </tbody>
 </table>
-
+</div>
 <br>
 
 <form action="index.php?action=addCastingActeur" method="post"> 

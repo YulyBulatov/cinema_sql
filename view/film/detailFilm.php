@@ -31,7 +31,7 @@
           "<a href=index.php?action=formSynopsis&id=$index>Ajouter/Modifier le synopsis</a><br>",
           "<p> Casting : </p><br>";              
 }?>
-
+<div class="table-wrapper">
 <table>
     <thead>
         <tr>
@@ -79,6 +79,7 @@
     </tr>
     </tbody>
 </table>
+</div>
 
 <div class = "likes">
     <p>Nombre de likes: <?= $film["likes"]?> </p>

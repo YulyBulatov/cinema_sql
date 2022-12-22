@@ -1,5 +1,5 @@
 <?php ob_start(); ?>
-
+<div class="table-wrapper">
 <table>
     <thead>
         <tr>
@@ -27,7 +27,7 @@
 ?>
     </tbody>
 </table>
-
+</div>
 <?php
 
 

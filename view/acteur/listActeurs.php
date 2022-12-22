@@ -2,6 +2,7 @@
 
 <p>Il y a <?= $requete->rowCount() ?> acteur(s)</p>
 
+<div class="table-wrapper">
 <table>
     <thead>
         <tr>
@@ -32,6 +33,7 @@
 ?>
     </tbody>
 </table>
+</div>
 
 <br>
 <label>Ajouter un nouveau acteur :

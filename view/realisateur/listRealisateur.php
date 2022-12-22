@@ -2,6 +2,7 @@
 
 <p>Il y a <?= $requete->rowCount() ?> realisateur(s)</p>
 
+<div class="table-wrapper">
 <table>
     <thead>
         <tr>
@@ -30,7 +31,7 @@
 ?>
     </tbody>
 </table>
-
+</div>
 <br>
 
 <label>Ajouter un nouveau realisateur :
