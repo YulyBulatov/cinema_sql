@@ -548,21 +548,20 @@ use Model\Connect;
             self::detailFilm($id_film);
         }
 
-        public function addCastingActeur(){
+        public function addCastingActeur($id){
 
             if(isset($_POST["submit"])){
 
-                $id_acteur = filter_input(INPUT_POST, "id_acteur", FILTER_SANITIZE_NUMBER_INT);
                 $id_personnage = filter_input(INPUT_POST, "personnage", FILTER_SANITIZE_NUMBER_INT);
                 $id_film = filter_input(INPUT_POST, "film", FILTER_SANITIZE_NUMBER_INT);
 
-                if($id_acteur && $id_personnage && $id_film){
+                if($id_personnage && $id_film){
 
                     $pdo = Connect::seConnecter();
                     $sqlQuery = "INSERT INTO casting
                     VALUES (:id_film, :id_acteur, :id_personnage)";
                     $requete = $pdo->prepare($sqlQuery);
-                    $requete->bindValue("id_acteur", $id_acteur);
+                    $requete->bindValue("id_acteur", $id);
                     $requete->bindValue("id_personnage", $id_personnage);
                     $requete->bindValue("id_film", $id_film);
                     $requete->execute();
@@ -570,7 +569,7 @@ use Model\Connect;
                 }
             }
 
-            self::filmographieActeur($id_acteur);
+            self::filmographieActeur($id);
         }
 
         public function like($id){

@@ -29,7 +29,7 @@
 </div>
 <br>
 
-<form action="index.php?action=addCastingActeur" method="post"> 
+<form action="index.php?action=addCastingActeur&id=<?= $_GET["id"]?>" method="post"> 
             <td>
                 <select name="film">
                     <?php foreach($requete3->fetchALL() as $film){
@@ -45,7 +45,6 @@
                 </select>
             </td>
             <td>
-                <input type="hidden" name="id_acteur" value=<?= $_GET["id"]?>>
                 <input type="submit" name="submit" value="Ajouter">
             </td>
 
