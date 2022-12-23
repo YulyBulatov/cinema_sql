@@ -84,6 +84,11 @@
 <div class = "likes">
     <p>Nombre de likes: <?= $film["likes"]?> </p>
     <button type="button"><a class="fa fa-thumbs-up" href="index.php?action=like&id=<?= $index?>"></a></button>
+    <?php if($_SESSION['message_like']){
+
+        echo "<p>".$_SESSION['message_like']."</p>";
+        unset($_SESSION['message_like']);
+    }?>
 </div>
 <?php
 

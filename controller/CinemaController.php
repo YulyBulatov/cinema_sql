@@ -25,7 +25,7 @@ use Model\Connect;
         public function detailFilm($id){
 
             $pdo = Connect::seConnecter();
-            $sqlQuery = "SELECT titre_film, TIME_FORMAT(SEC_TO_TIME(duree_minutes*60), '%H:%i') AS duree, YEAR(anne_sortie) AS anne_sortie, nom, prenom, synopsis, note_film, likes, id_film, film.id_realisateur AS id_realisateur
+            $sqlQuery = "SELECT titre_film, TIME_FORMAT(SEC_TO_TIME(duree_minutes*60), '%H:%i') AS duree, YEAR(anne_sortie) AS anne_sortie, nom, prenom, synopsis, note_film, IFNULL(likes, '0') AS likes, id_film, film.id_realisateur AS id_realisateur
             FROM film
             INNER JOIN realisateur on film.id_realisateur = realisateur.id_realisateur
             INNER JOIN personne ON realisateur.id_personne = personne.id_personne
@@ -576,13 +576,62 @@ use Model\Connect;
         public function like($id){
                
             $pdo = Connect::seConnecter();
-            $sqlQuery = "UPDATE film
-            SET likes = likes + 1
-            WHERE id_film = :id_film";
+
+/* On verifie d'abord, si le film a été déjà liké ou pas*/
+
+            $ip_user = $_SERVER['REMOTE_ADDR'];
+            $sqlQuery = "SELECT * 
+            FROM like_per_user
+            WHERE ip_user = :ip_user AND id_film = :id_film";
             $requete = $pdo->prepare($sqlQuery);
-            $requete->execute(["id_film" => $id]);
+            $requete->execute(["ip_user" => $ip_user,
+                               "id_film" => $id]);
+                        
+            if($requete->rowCount() == 0){
+
+                /*On verifie, s'il y a déjà au moins 1 like, car on ne peut pas incrementer une valeur = NULL*/ 
+
+                $sqlQuery = "SELECT IFNULL(likes, 0) as likes 
+                FROM film  
+                WHERE id_film = :id_film";
+                $requete = $pdo->prepare($sqlQuery);
+                $requete->execute(["id_film" => $id]);
+
+                if($requete->fetchColumn(0) ==  0){
+
+                    $sqlQuery = "UPDATE film
+                    SET likes =  1
+                    WHERE id_film = :id_film";
+                    $requete = $pdo->prepare($sqlQuery);
+                    $requete->execute(["id_film" => $id]);
+                }
+
+                else{
+
+                    $sqlQuery = "UPDATE film
+                    SET likes = likes + 1
+                    WHERE id_film = :id_film";
+                    $requete = $pdo->prepare($sqlQuery);
+                    $requete->execute(["id_film" => $id]);
+
+                }  
             
+                $sqlQuery = "INSERT INTO like_per_user (ip_user, liked, id_film)
+                VALUES (:ip_user, 1 , :id_film)";
+                $requete = $pdo->prepare($sqlQuery);
+                $requete->execute(["ip_user" => $ip_user,
+                                   "id_film" => $id]);
+
             self::detailFilm($id);
+            }
+
+            else{
+
+                $message = "Vous avez déjà liké ce film!";
+                $_SESSION['message_like'] = $message;
+
+                self::detailFilm($id);
+            }
         }
 
             

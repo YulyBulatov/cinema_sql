@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 include ('controller/CinemaController.php');
 include ('controller/HomeController.php');
